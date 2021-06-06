@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  width: 95vw;
+  height: 95vh;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.card {
+  width: 80vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  align-items: center;
+  justify-content: center;
+  background-color: #22333B;
+  border-radius: 20px;
+  box-shadow: 10px 10px 5px rgb(233, 232, 232);
+}
+
+h1{
+  color: white;
+  font-size: 50px;
+  margin-bottom: 50px;
+}
