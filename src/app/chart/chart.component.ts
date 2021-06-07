@@ -102,7 +102,9 @@ export class ChartComponent implements OnInit {
   }
 
   signOut() {
-    this.router.navigateByUrl('/');
+    sessionStorage.clear();
     localStorage.clear();
+    this.cookieService.deleteAll();
+    this.router.navigateByUrl('/');
   }
 }
