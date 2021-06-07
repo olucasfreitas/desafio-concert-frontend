@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { SigninComponent } from './signin/signin.component';
 import { ChartComponent } from './chart/chart.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
-  declarations: [AppComponent, SigninComponent, ChartComponent],
+  declarations: [AppComponent, SigninComponent, ChartComponent, SignupComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
