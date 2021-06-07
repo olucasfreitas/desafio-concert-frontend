@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormControl, FormGroup } from '@angular/forms';
+import { CookieService } from 'ngx-cookie-service';
 
 const API = 'http://localhost:3333/';
 
@@ -25,7 +26,11 @@ export class SigninComponent implements OnInit {
     password: new FormControl(''),
   });
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private cookieService: CookieService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -46,7 +51,7 @@ export class SigninComponent implements OnInit {
       )
       .subscribe((data) => {
         const tranformedData = data as User;
-        localStorage.setItem('token', tranformedData.token);
+        this.cookieService.set('token', tranformedData.token);
         this.router.navigateByUrl('/chart');
       });
   }
