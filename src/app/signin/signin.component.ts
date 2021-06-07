@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 const API = 'http://localhost:3333/';
 
@@ -29,9 +29,7 @@ export class SigninComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  async onSubmit(): Promise<void> {
-    console.warn(this.login.value);
-
+  onSubmit(): void {
     const { email, password } = {
       email: this.login.value.email,
       password: this.login.value.password,
