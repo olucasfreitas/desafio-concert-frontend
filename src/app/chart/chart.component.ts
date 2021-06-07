@@ -2,18 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Chart, registerables } from 'chart.js';
 import { ChartData } from '../chart';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 Chart.register(...registerables);
-
-const API = 'http://localhost:3333/';
-const token = localStorage.getItem('token');
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  }),
-};
 
 @Component({
   selector: 'app-chart',
@@ -28,19 +20,35 @@ export class ChartComponent implements OnInit {
   mean_pressure: Number[] = [];
   chart: any;
 
-  constructor(private http: HttpClient) {}
+  API = 'http://localhost:3333/';
+  token = this.cookieService.get('token');
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    }),
+  };
+
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private cookieService: CookieService
+  ) {}
 
   ngOnInit() {
-    this.http.get(API + 'measurements', httpOptions).subscribe((data) => {
-      const transformedData = data as ChartData[];
-      transformedData.forEach((value: any) => {
-        this.date.push(value.date);
-        this.meantemp.push(value.meantemp.toFixed(1));
-        this.humidity.push(value.humidity.toFixed(1));
-        this.wind_speed.push(value.wind_speed.toFixed(1));
-        this.mean_pressure.push(value.meanpressure.toFixed(1));
+    this.http
+      .get(this.API + 'measurements', this.httpOptions)
+      .subscribe((data) => {
+        const transformedData = data as ChartData[];
+        transformedData.forEach((value: any) => {
+          this.date.push(value.date);
+          this.meantemp.push(value.meantemp.toFixed(1));
+          this.humidity.push(value.humidity.toFixed(1));
+          this.wind_speed.push(value.wind_speed.toFixed(1));
+          this.mean_pressure.push(value.meanpressure.toFixed(1));
+        });
       });
-    });
 
     this.chart = new Chart('myChart', {
       type: 'line',
@@ -91,5 +99,10 @@ export class ChartComponent implements OnInit {
 
   updateChart() {
     this.chart.update();
+  }
+
+  signOut() {
+    this.router.navigateByUrl('/');
+    localStorage.clear();
   }
 }
